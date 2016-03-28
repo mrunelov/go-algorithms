@@ -1,14 +1,9 @@
 package knapsack
 
 import (
+  "fmt"
   "math/big"
   "time"
-
-  "github.com/goburrow/gol"
-)
-
-var (
-	logger = gol.GetLogger("knapsack")
 )
 
 type Problem struct {
@@ -29,7 +24,6 @@ type Solution struct {
 }
 
 func SolveUnbounded(problem *Problem) Solution {
-  logger.Debugf("SolveUnbounded called")
   defer timer(trace("SolveUnbounded"))
   return solveUnbounded(problem.Capacity, problem.Items)
 }
@@ -86,7 +80,6 @@ func solveUnbounded(capacity int64, items []Item) Solution {
 func gcdAll(base int64, numbers []int64) int64 {
   gcd_all := base
   for i := range numbers {
-    // fmt.Printf("number: %v ,gcd_all: %v\n", numbers[i], gcd_all)
     gcd_all = gcd(gcd_all, numbers[i])
   }
   return gcd_all
@@ -102,5 +95,5 @@ func trace(s string) (string, time.Time) {
 
 func timer(function string, start time.Time) {
   elapsed := time.Since(start)
-  logger.Debugf("Function %v took %f seconds", function, elapsed.Seconds())
+  fmt.Printf("Function %v took %f seconds\n", function, elapsed.Seconds())
 }
