@@ -24,7 +24,8 @@ type Trie interface {
  * A trie using slices internally
  */
 type Strie struct {
-  children []*node
+  children []*Strie
+  value    rune
   end      bool
 }
 
@@ -36,11 +37,6 @@ type Mtrie struct {
   end      bool
 }
 
-type node struct {
-  value    rune
-  position *Strie
-}
-
 func NewMtrie() *Mtrie {
   return &Mtrie{
     children: make(map[rune]*Mtrie),
@@ -49,14 +45,14 @@ func NewMtrie() *Mtrie {
 
 func NewStrie() *Strie {
   return &Strie{
-    children: make([]*node, 0),
+    children: make([]*Strie, 0),
   }
 }
 
 func (t *Strie) findNode(r rune) (*Strie, bool) {
   for _, child := range t.children {
     if child.value == r {
-      return child.position, true
+      return child, true
     }
   }
   return nil, false
@@ -84,7 +80,8 @@ func (t *Strie) AddString(str string) bool {
     next, found := current.findNode(r)
     if !found {
       next = NewStrie()
-      current.children = append(current.children, &node{r, next})
+      next.value = r
+      current.children = append(current.children, next)
     }
     current = next
   }
@@ -146,9 +143,9 @@ func (t *Strie) printWords(w io.Writer, runes []rune) {
   }
   for _, child := range t.children {
     word := append(runes, append([]rune(separator), child.value)...)
-    if child.position.end {
+    if child.end {
       word = append(word, []rune("|")...)
     }
-    child.position.printWords(w, word)
+    child.printWords(w, word)
   }
 }

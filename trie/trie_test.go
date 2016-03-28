@@ -38,7 +38,7 @@ func testInsertion(t *testing.T, trie Trie) {
 }
 
 func TestPrintTrie(t *testing.T) {
-  trie := NewMtrie()
+  trie := NewStrie()
   trie.AddString("D")
 	trie.AddString("G")
   trie.AddString("H")
