@@ -1,5 +1,9 @@
 package trie
 
+/*
+ * Trie implementations inspired by https://github.com/broersa/trie
+ */
+
 import (
   "fmt"
   "io"
@@ -16,11 +20,17 @@ type Trie interface {
   Contains(s string) bool
 }
 
+/*
+ * A trie using slices internally
+ */
 type Strie struct {
   children []*node
   end      bool
 }
 
+/*
+ * A trie using maps internally
+ */
 type Mtrie struct {
   children map[rune]*Mtrie
   end      bool
@@ -53,10 +63,12 @@ func (t *Strie) findNode(r rune) (*Strie, bool) {
 }
 
 func (t *Strie) Contains(str string) bool {
+  // TODO
   return false
 }
 
 func (t *Mtrie) Contains(str string) bool {
+  // TODO
   return false
 }
 
